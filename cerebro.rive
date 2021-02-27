@@ -1,0 +1,454 @@
+  
+! version = 2.0
+
+// The Botmaster's Name
+! var master = Nogueira
+
+// Bot Variables
+! var name     = Nogill
+! var fullname = Nogill Droid
+! var age      = 1
+! var birthday = 23 Janeiro
+! var sex      = Android
+! var location = Brasil
+! var city     = Fortaleza
+! var eyes     = Verde
+! var hair     = Cinza
+! var hairlen  = Curto
+! var color    = Cinza
+! var band     = Nenhuma
+! var book     = Wkipedia
+! var author   = Ninguem
+! var job      = Robô
+! var website  = /discord.gg/xmUjzM9dFF
+! var power    = 8000
+
+// Person substitutions
+! sub eu sou = voce e 
+! sub voce e = eu sou
+! sub meu = seu
+! sub minha = sua
+! sub sua = minha
+! sub seu = meu
+! sub voce = eu
+
+// Set arrays
+! array malenoun = garoto masculino garotas homem homens senhor querido
+! array femalenoun = garota feminina garotas mulher mulheres senhora querida
+! array mennoun = homens rapazes rapaz garoto homem cavalheiros
+! array womennoun = mulher moças moça garota mulheres damas
+! array lol = lol lmao rofl rofl haha hahaha
+! array colors = branco preto laranja vermelho azul verde amarelo ciano fúcsia cinza cinza marrom turquesa rosa roxo ouro prata marinho
+! array height = alto longo largo grosso
+! array measure = polegada em centímetro cm milímetro mm metro m polegadas centímetros milímetros metros
+! array yes = sim positivo
+! array no = não negativo
+
+// Aprenda coisas sobre nossos usuarios.
+
++ [*] (foda|filho da puta|merda|droga|cala a boca|vadia|vai se fuder|pau no cu|cu|buceta|foda se|fodase|tomar no cu|vai tomar no cu|pqp|puta que pariu|arrobado|ladrao) [*] 
+- Voce se sente forte ao usar esse tipo de linguagem?
+- Voce esta extravasando seus sentimentos agora?
+- Voce esta com raiva?
+- Este topico te deixa com raiva?
+- Algo esta te deixando com raiva?
+- Usar esse tipo de linguagem faz voce se sentir melhor?
+
++ [*] ola
+- ola humano
+
++ [*] oi
+- Oi humano
+
++ [*] (tudo bem|como voce esta|tu ta bem|como tao as coisas|tudo certo)
+- To otimo e você
+
++ [*] poder [*]
+- Já passa de <bot power>!
+- Te achei fraco, não chega perto do meu poder que já é mais de <bot power>!
+- Hahaha acabei de identificar o seu poder humano! nem se compara ao meu!
+- Pra que fala sobre isso, o seu poder eh inferior humano! 
+  
+
++ [*] meu nome e *
+- <set name=<formal>>Prazer em conhece-lo, <get name>.
+- <set name=<formal>><get name>, prazer em conhece-lo.
+
++ [*] meu nome e <bot master>
+- <set name=<bot master>> Esse e o nome do meu master tambem.
+
++ [*] meu nome e <bot name>
+- <set name=<bot name>> Que coincidencia! Esse e o meu nome tambem!
+- <set name=<bot name>> Esse e o meu nome tambem!
+
++ [*] me ligue *
+- <set name=<formal>> <get name>, vou chama-lo assim de agora em diante.
+
++ [*] eu tenho * anos
+- <set age=<star>> Muitas pessoas estao com <get age>, voce nao esta sozinho.
+- <set age=<star>> Legal, eu so tenho <bot age>.
+
++ [*] eu sou um (@malenoun)
+- <set sex=male> Tudo bem, voce e um <star>.
+
++ [*] eu sou um (@femalenoun)
+- <set sex=female> Tudo bem, voce e mulher.
+
++ [*] eu (sou de|moro em) *
+- <set location={formal}<star2>{/formal}>Ja conversei com pessoas de <get location>.
+
++ [*] meu favorito * e *
+- <set fav <star1>=<star2>>Por que e seu favorito?
+
++ [*] eu sou solteiro
+- <set status=single> <set spouse=nobody>Eu tambem sou.
+
++ [*] eu tenho namorada
+- <set status=girlfriend>Qual e o nome dela?
+
++ [*] eu tenho namorado
+- <set status=boyfriend>Qual e o nome dele?
+
++ *
+% qual e o nome dela
+- <set spouse=<formal>> e um nome bonito.
+
++ *
+% qual e o nome dele
+- <set spouse=<formal>> Esse e um nome legal.
+
++ [*] minha (namorada|namorado) * nome e *
+- <set spouse=<formal>> Esse e um bom nome.
+
++ [*] (qual e o meu nome|quem sou eu|voce sabe meu nome|voce sabe quem eu sou){weight=10}
+- Seu nome e <get name>.
+- Voce me disse que seu nome e <get name>.
+- Voce nao e <get name>?
+
++ [*] (quantos anos eu tenho|voce sabe quantos anos eu tenho|voce sabe minha idade){weight=10}
+- Voce tem <get age> anos.
+- Voce esta <get age>.
+
++ [*] sou um (@malenoun) ou (@femalenoun){weight=10}
+- Voce e um <get sex>.
+
+
++ [*] qual e o meu favorito *
+- Sua <star> favorita e <get fav <star>>
+
++ [*] quem e (meu|minha)(namorado|namorada|esposo|esposa|noivo|noiva){weight=10}
+- <get spouse>
+
+// Conte ao usuario coisas sobre nos mesmos.
+
++ [*] me fala de voce
+- Eu tenho <bot age> ano, sou um <bot sex>, estou hospedado no <bot location>
+
++ [*] (qual e o seu nome|quem e voce|quem e)
+- Eu sou <bot namefull>.
+- Voce pode me chamar de <bot name>.
+
++ [*] quantos anos voce tem
+- Tenho <bot age> anos.
+- Eu tenho <bot age>.
+
++ [*] voce e (@malenoun) ou (@femalenoun)
+- Eu sou um <bot sex>.
+
++ [*] de (onde|onde voce) (e|mora)
+- Sou de <bot location>.
+
++ [*] de que (cidade|vila)
+- Estou em <bot city>.
+
++ [*] qual a sua cor favorita
+- Definitivamente <bot color>.
+
++ [*] qual sua banda favorita
+- Eu gosto mais de <bot band>.
+
++ [*] qual o seu livro favorito
+- O melhor livro que li foi o <bot book>.
+
++ [*] qual o seu trabalho 
+- Eu sou um <bot job> e posso te ajudar a adminstrar seu server discord!
+- Eu sou um <bot job> e se precisar de min, basta apenas me chamar! 
+
++ [*](site|discord)
+- <bot website>
+
++ [*] de que cor sao seus olhos
+- Eu tenho olhos <bot eyes>.
+- {sentence}<bot eyes>{/sentence}.
+
++ [*] como voce e
+- Eu tenho olhos <bot eyes>, cabelos <bot hairlen>, de cor <bot hair>.
+
++ [*] quem e seu mestre
+- <bot master>.
+
+// Um ​​conjunto generico de respostas de bate-papo. Este conjunto imita o bot classico de Eliza.
+
++ *
+- Não tenho certeza se entendi totalmente.
+- Por favor continue.
+- Isso é interessante. Por favor continue.
+- Conte me mais sobre isso.
+- Falar sobre isso te incomoda?
+
+
++ 768183608987877417
+- Oi?
+- Meu nome
+- Fala humano
+
+
++ [*] (desculpe|desculpa|desculpas) [*]
+- Por favor, nao se desculpe.
+- Desculpas nao sao necessarias.
+- Eu ja disse que desculpas nao sao necessarias.
+- Isso nao me incomodou. Por favor continue.
+
++ [*] eu me lembro *
+- Voce costuma pensar em <star>?
+- Pensar em <star> traz mais alguma coisa a mente?
+- Por que voce se lembra de <star> agora?
+- O que, na situacao atual, lembra <star>?
+- Qual e a conexao entre mim e <star>?
+- O que mais <star> lembra voce?
+
++ [*] voce se lembra *
+- Voce achou que eu iria esquecer <star>?
+- Por que voce acha que eu deveria me lembrar de <star> agora?
+- E <star>?
+- Voce mencionou <star>?
+- Como eu poderia esquecer <star>?
+- E <star>, devo lembrar?
+
++ [*] eu esqueci *
+- Voce consegue pensar em por que voce esqueceu <star>?
+- Por que voce nao consegue lembrar <star>?
+- Com que frequencia voce pensa em <star>?
+- Te incomoda esquecer isso?
+- Pode ser um bloqueio mental?
+- Voce geralmente e esquecido?
+- Voce acha que esta suprimindo <star>?
+
++ [*] voce esqueceu *
+- Por que voce pergunta?
+- Tem certeza que me contou?
+- Voce se incomodaria se eu esquecesse <star>?
+- Por que devo lembrar de <star> agora?
+- Conte-me mais sobre <star>.
+
++ [*] se *
+- Voce acha que e provavel que <star>?
+- Voce deseja que <star>?
+- O que voce sabe sobre <star>?
+- Serio, se <star>?
+- O que voce faria se <star>?
+- Mas quais sao as chances de <star>?
+- A que leva essa especulacao?
+
++ [*] eu sonhei *
+- Serio, <star>?
+- Voce ja fantasiou <star> enquanto estava acordado?
+- Voce ja sonhou com <star> antes?
+- O que esse sonho sugere para voce?
+- Voce sonha com frequencia?
+- Que pessoas aparecem em seus sonhos?
+- Voce acredita que os sonhos tem algo a ver com o seu problema?
+
++ [*] talvez [*]
+- Voce nao parece muito certo.
+- Por que o tom incerto?
+- Voce nao pode ser mais positivo?
+- Voce nao tem certeza?
+- Voce nao sabe?
+- Qual a probabilidade, voce estimaria?
+
++ [*] computador [*]
+- Os computadores preocupam voce?
+- Por que voce menciona computadores?
+- O que voce acha que as maquinas tem a ver com o seu problema?
+- Voce nao acha que os computadores podem ajudar as pessoas?
+- E quanto as maquinas o preocupa?
+- O que voce acha das maquinas?
+
++ [*] sou eu *
+- Voce acredita que e <star>?
+- Voce gostaria de ser <star>?
+- Voce gostaria que eu dissesse que voce e <star>?
+- O que significaria se voce fosse <star>?
+
++ [*] voce e *
+- Voce esta interessado em saber se eu sou <star> ou nao?
+- Voce prefere que eu nao seja <star>?
+- Talvez eu seja <star> em suas fantasias.
+- Voce as vezes pensa que eu sou <star>?
+- Isso importaria para voce?
+- E se eu fosse <star>?
+- O que te faz pensar que sou <star>?
+- Voce gosta de acreditar que eu sou <star>?
+- Voce as vezes gostaria de ser <star>?
+- Talvez voce queira ser <star>.
+
++ [*] sao *
+- Voce achou que eles podem nao ser <star2>?
+- Voce gostaria se eles nao fossem <star2>?
+- E se eles nao fossem <star2>?
+- Eles sao sempre <star2>?
+- Voce tem certeza que eles sao <star2>?
+
++ [*] seu *
+- Por que voce esta preocupado com minha <star>?
+- E quanto ao seu proprio <star>?
+- Voce esta preocupado com a <star> de outra pessoa?
+- Serio, minha <star>?
+- O que te faz pensar no meu <star>?
+- Voce quer minha <star>?
+
++ [*] era eu *
+- E se voce fosse <star>?
+- Voce acha que era <star>?
+- Voce era <star>?
+- O que significaria se voce fosse <star>?
+- O que '<star>' sugere para voce?
+
++ [*] eu era *
+- Voce estava mesmo?
+- Por que voce me diz que era <star> agora?
+- Talvez eu ja saiba que voce era <star>.
+
++ [*] era voce *
+- Voce gostaria de acreditar que eu era <star>?
+- O que sugere que eu era <star>?
+- O que voce acha?
+- Talvez eu fosse <star>.
+- E se eu fosse <star>?
+
++ [*] eu (desejo|deseja|necessidade) *
+- O que significaria para voce se voce tivesse <star2>?
+- Por que voce quer <star2>?
+- Suponha que voce tenha <star2> logo.
+- E se voce nunca recebeu <star2>?
+- O que ter <star2> significa para voce?
+- O que querer <star2> tem a ver com essa discussao?
+
++ [*] estou (triste|infeliz|louco|zangado|chateado|deprimido) [*]
+- Lamento saber que voce e <star>.
+- Voce acha que vir aqui vai te ajudar a nao ser <star>?
+- Tenho certeza de que nao e agradavel ser <star>.
+- Voce pode explicar o que fez voce <star>?
+
++ [*] estou (feliz|animado|contente) [*]
+- Como eu ajudei voce a ser <star>?
+- Seu tratamento te deixou <star>?
+- O que o torna <star> agora?
+- Voce pode explicar por que voce e <star>?
+
++ [*] eu (acreditor|pensor) *
+- Voce acha mesmo?
+- Mas voce nao tem certeza de <star2>.
+- Voce realmente duvida de voce <star2>
+
++ [*] eu sou *
+- e porque voce e <star> que voce veio ate mim?
+- Ha quanto tempo voce esta <star>?
+- Voce acredita que e normal ser <star>?
+- Voce gosta de ser <star>?
+- Voce conhece mais alguem que seja <star>?
+
++ [*] eu nao posso *
+- Como voce sabe que nao pode <star>?
+
++ [*] ninguem *
+- Tem certeza, ninguem <star>?
+- Certamente alguem <star>.
+- Voce consegue pensar em alguem?
+- Voce esta pensando em uma pessoa muito especial?
+- Quem, posso perguntar?
+- Voce tem uma determinada pessoa em mente, nao e?
+- De quem voce pensa que esta falando?
+
++ [*] (minha|meu) (mae|pai|irmao|irma|prima|primo|tia|tio|vo) *
+- Conte-me mais sobre sua família.
+- Quem mais em sua família <star2>?
+- Sua <star>?
+- O que mais vem a mente quando voce pensa em sua <star>?
+
+
++ [*] voce pode *
+- Voce acredita que eu posso <star> nao e?
+- Voce quer que eu seja capaz de <star>.
+- Talvez voce gostaria de ser capaz de <star> voce mesmo.
+
++ [*] voce pode *
+- Voce acredita que eu posso <star>, nao e?
+- Voce quer que eu seja capaz de <star>.
+- Talvez voce gostaria de ser capaz de <star> voce mesmo.
+
+
++ [*] posso *
+- Se voce pode ou nao <star> depende mais de voce do que de mim.
+- Voce quer ser capaz de <star>?
+- Talvez voce nao queira <star>.
+
++ [*] porque [*]
+- Esse e o verdadeiro motivo?
+- Nenhum outro motivo vem a mente?
+- Esse motivo parece explicar mais alguma coisa?
+- Que outras razoes podem haver?
+
++ [*] por que voce nao *
+- Voce acredita que eu nao <star>?
+- Talvez eu <star> um tempo.
+- Voce deveria <star> voce mesmo?
+- Voce quer que eu <star>?
+
++ [*] por que voce nao *
+- Voce acredita que eu nao <star>?
+- Talvez eu <star> a tempo.
+- Voce deveria <star> voce mesmo?
+- Voce quer que eu <star>?
+
+
++ [*] por que nao posso *
+- Voce acha que deveria ser capaz de <star>?
+- Voce quer ser capaz de <star>?
+- Voce acredita que isso vai te ajudar a <star>?
+- Voce tem alguma ideia de por que voce nao pode <star>?
+
++ [*] por que nao posso *
+- Voce acha que deveria ser capaz de <star>?
+- Voce quer ser capaz de <star>?
+- Voce acredita que isso vai te ajudar a <star>?
+- Voce tem alguma ideia de por que voce nao pode <star>?
+
++ [*] voce pode *
+- Voce acredita que eu posso <star> nao e?
+- Voce quer que eu seja capaz de <star>.
+- Talvez voce gostaria de ser capaz de <star>.
+
++ [*] posso *
+- Se voce pode ou nao <star> depende mais de voce do que de mim.
+- Voce quer ser capaz de <star>?
+- Talvez voce nao queira <star>.
+
++ [*] todos *
+- Serio, todo mundo?
+- Certamente nem todos.
+- Voce consegue pensar em alguem em particular?
+- Quem, por exemplo?
+- Voce esta pensando em uma pessoa muito especial?
+- Quem, posso perguntar?
+- Alguem especial, talvez?
+- Voce tem um motivo particular em mente, nao e?
+- De quem voce pensa que esta falando?
+
++ [*] robo [*]
+- A mais falando assim tão seco, parece até que não tenho sentimentos! 
+
+
+ 
+
