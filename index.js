@@ -5,15 +5,18 @@ const client = new Discord.Client({autoReconnect: true});
 const config = require("./config.json")
 const { Client, Util } = require('discord.js');
 const { createConnection } = require('mysql');
-const bot = new RiveScript();
-const guildMemberAdd = require('./events/guildMemberAdd');
+// const bot = new RiveScript();
 const { title } = require('process');
-let RiveScript = require('rivescript');
+const inviteNotifications = require('./invite-notifications');
 
+let RiveScript = require('rivescript');
 var token = config.token
 var prefix = config.prefix
 var dono = config.dono
 
+inviteNotifications(client)
+
+// Conectando ao banco dados.
 const con = createConnection(config.mysql);
 con.connect(err => {
     if (err) return console.log(err);
@@ -22,6 +25,8 @@ con.connect(err => {
 
 // lé a pastas pra exetuta os comandos do bot 
 client.on("message", (message) => {
+
+        // inicia o cerebro do Nogill
         let UserName = message.author.username
         let BotName = "Nogill" 
         const FormatedUserName = UserName.toLowerCase().normalize('NFD').replace(/[\u0300-\u036F]/g, '');
@@ -35,13 +40,10 @@ client.on("message", (message) => {
                 bot.reply("local-user", MessageUserTrat).then(function (reply) {
                    message.reply(reply);   
                 });
-                // console.log(message.content)
             }    
         }    
-            
-
-
-
+         
+    // Carregando docs de comandos    
     if (message.channel.type != "dm" && !message.author.bot && message.content.startsWith(prefix)) {
 
         let command = message.content.split(" ")[0];
@@ -86,38 +88,19 @@ client.on("ready", () => {
 });
 
 // Adiciona o arquivo Cérebro no robo
-bot.loadFile(['./cerebro.rive'])
-    .then(botReady)
-    .catch(botNotReady);
+// bot.loadFile(['./cerebro.rive'])
+//     .then(botReady)
+//     .catch(botNotReady);
      
-// Executada quando o cérebro for carregado
-function botReady() {
-    bot.sortReplies();
-}
+// // Executada quando o cérebro for carregado
+// function botReady() {
+//     bot.sortReplies();
+// }
 
-// Executada se tiver algum erro ao carregar o cérebro
-function botNotReady(err) {
-    console.log("An error has occurred.", err);
-}
-
-// Inicialize o cache de convite
-const invites = {};
-
-// Um método muito útil para criar um atraso sem bloquear todo o script.
-const wait = require('util').promisify(setTimeout);
-
-// client.on('ready', async () => {
-//   // "ready" não está realmente pronto. Precisamos esperar um feitiço.
-//   await wait(1000);
-
-//   // Carregue todos os convites de todas as guildas e salve-os no cache.
-//   client.guilds.forEach(g => {
-//     g.fetchInvites().then(guildInvites => {
-//       invites[g.id] = guildInvites;
-//     });
-//   });
-// });
-
+// // Executada se tiver algum erro ao carregar o cérebro
+// function botNotReady(err) {
+//     console.log("An error has occurred.", err);
+// }
 
 client.on("guildCreate", async guild => {
     let newguild = guild.id 
@@ -127,14 +110,11 @@ client.on("guildCreate", async guild => {
         if (err) throw err; 
         console.log(result)
     });
-    await wait(1000);
-    // Carregue todos os convites de todas as guildas e salve-os no cache.
-    client.guilds.forEach(g => {
-        g.fetchInvites().then(guildInvites => {
-        invites[g.id] = guildInvites;
-        });
-    });
-    console.log(invites)
+});
+
+
+
+
         // let embed = new Discord.RichEmbed()
         //     .setThumbnail()
         //     .setColor('RANDOM')
@@ -143,8 +123,9 @@ client.on("guildCreate", async guild => {
         //     .setFooter('2021 ©Equipe de programação Nogill')
         //     .setTimestamp()
         // message.channel.send(embed);
-});
 
+
+// Sistema de Boa Vindas
 client.on('guildMemberAdd', member =>{
     const server = member.guild.id
     con.query("SELECT * FROM user WHERE GUILD="+server, function (err, result, fields) {
