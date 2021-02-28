@@ -151,18 +151,20 @@ client.on('guildMemberAdd',  member => {
     const server = member.guild.id
     con.query("SELECT * FROM user WHERE GUILD=" + server, function (err, result, fields) {
         if (err) throw err;
+
+        // Sistema de Boa-Vindas
         if (result.length > 0) {
             if (result[0].PLAN == 1) {
                 if (result[0].WC) {
                     const join = new Discord.RichEmbed()
                         .setThumbnail(member.user.displayAvatarURL)
                         .setColor('RANDOM')
-                            .setAuthor('👋 Bem-vindo(a) ao ' + message.guild.name)
-                            .setDescription('Leia as regras e ecite punições: <#'+result[0].CR+'>')
-                            .addField('n!help', '__Veja todos os comandos do Nogill__')
-                            .addField('n!convite', '__use o Nogill no seu server!__')
-                            .setFooter('2021 ©Equipe de programação Nogill')
-                            .setTimestamp()
+                        .setAuthor('👋 Bem-vindo(a) ao ' + message.guild.name)
+                        .setDescription('Leia as regras e ecite punições: <#'+result[0].CR+'>')
+                        .addField('n!help', '__Veja todos os comandos do Nogill__')
+                        .addField('n!convite', '__use o Nogill no seu server!__')
+                        .setFooter('2021 ©Equipe de programação Nogill')
+                        .setTimestamp()
 
                     member.guild.channels.get(result[0].WC).send(join).catch()
                 } else {
@@ -170,11 +172,10 @@ client.on('guildMemberAdd',  member => {
                 }
             } else {
                 client.users.get(result[0].OWNER).send('Alguem entrou no seu discord, para criar o sistema de bem vindo ative o Premium!'+'Caso precisse de ajuda, basta chamar! - https://discord.gg/jjRZ5pDEhB').catch()
-                // console.log(result[0].OWNER)
             }
-        } else {
-            // console.log('Achei nada não')
-        } 
+        }  
+
+        // Sistema de Tag ao entrar no server
         if (result.length > 0) {
             if (result[0].PLAN == 1) {
                 if (result[0].WROLE) {
@@ -185,16 +186,15 @@ client.on('guildMemberAdd',  member => {
             } else {
                 client.users.get(result[0].OWNER).send('Alguem entrou no seu discord, para criar o sistema de Boas-Vindas ative o Premium!').catch()
             }
-        } else {
-            console.log('Achei nada não')
-        }       
+        }      
     });
 });
 
 //Sistema de ativar configuração adicionar canal de bem vindo 
 client.on('message', message => {
-
     let Message = message.content
+
+    // Sistema de ve os comando pra editar o Boas-Vindas
     if (Message === prefix + 'welcomechannel') {
         if (message.author.id !== message.guild.ownerID) {
             message.reply('<a:709506935392829470:797066256783769611> | Apenas posse do servidor pode usar o comando:' + message.guild.owner)
@@ -224,6 +224,7 @@ client.on('message', message => {
             });
         }
     }
+    // Sistema de setar o canal de Boas-Vindas
     if (message.content.startsWith(prefix+"setwelcomechannel")) {
         if (message.author.id !== message.guild.ownerID) {
             message.reply('<a:709506935392829470:797066256783769611> | Apenas posse do servidor pode usar o comando:' + message.guild.owner)
@@ -240,6 +241,7 @@ client.on('message', message => {
             }
         }
     }
+    // Sistema de setar canal de regras
     if (message.content.startsWith(prefix+"setruleschannel")) {
         if (message.author.id !== message.guild.ownerID) {
             message.reply('<a:709506935392829470:797066256783769611> | Apenas posse do servidor pode usar o comando:' + message.guild.owner)
@@ -256,6 +258,7 @@ client.on('message', message => {
             }
         }
     }
+    // Sistema para o usuario vê a mensagem de Boas-Vindas
     if (Message === prefix + 'testwelcome') {
         if (message.author.id !== message.guild.ownerID) {
             message.reply('<a:709506935392829470:797066256783769611> | Apenas posse do servidor pode usar o comando:' + message.guild.owner)
@@ -283,6 +286,7 @@ client.on('message', message => {
             });
         }
     }
+    // Sistema para setar o primeira Role ao entrar no server
     if (message.content.startsWith(prefix+"setfirstrole")) {
         if (message.author.id !== message.guild.ownerID) {
             message.reply('<a:709506935392829470:797066256783769611> | Apenas posse do servidor pode usar o comando:' + message.guild.owner)
