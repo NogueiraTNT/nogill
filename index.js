@@ -20,6 +20,9 @@ con.connect(err => {
     if (err) return console.log(err);
     console.log(`MySQL conectado!`);
 });
+ 
+
+
 
 // lé a pastas pra exetuta os comandos do bot 
 client.on("message", (message) => {
@@ -112,7 +115,7 @@ client.on("guildCreate", async guild => {
 
     let azulbarbuleta = con.query(`SELECT *  FROM user WHERE GUILD=`+newguild)
     if (!azulbarbuleta.length > 0) {
-        con.query(`INSERT INTO user (ID, OWNER, GUILD, PLAN, WC, TIP, CR, TITLE, WROLE) VALUES (ID, ${newowner}, ${newguild}, 0, "", "", "", "", "")`, function (err, result, fields) {
+        con.query(`INSERT INTO user (ID, OWNER, GUILD, PLAN, WC, TIP, CR, TITLE, WROLE, CBUGS, CBUGSR) VALUES (ID, ${newowner}, ${newguild}, 0, "", "", "", "", "", "", "")`, function (err, result, fields) {
             if (err) throw err;
             // console.log(result)
         });
@@ -125,7 +128,6 @@ client.on("guildCreate", async guild => {
                     if (bunda < 1) {
                         let myguild = client.guilds.get('814666072137138277')
                         let embed = new Discord.RichEmbed()
-                            .setThumbnail(client.guild.iconURL)
                             .setColor('RANDOM')
                             .setAuthor('Um novo server começo a me usar!')
                             .setTitle('https://discord.gg/'+invite.code)
@@ -193,7 +195,6 @@ client.on('guildMemberAdd',  member => {
 //Sistema de ativar configuração adicionar canal de bem vindo 
 client.on('message', message => {
     let Message = message.content
-
     // Sistema de ve os comando pra editar o Boas-Vindas
     if (Message === prefix + 'welcomechannel') {
         if (message.author.id !== message.guild.ownerID) {
@@ -229,16 +230,27 @@ client.on('message', message => {
         if (message.author.id !== message.guild.ownerID) {
             message.reply('<a:709506935392829470:797066256783769611> | Apenas posse do servidor pode usar o comando:' + message.guild.owner)
         } else {
-            let newguild = message.guild.id            
-            let firstrole = message.content
-            let role = firstrole.replace(/([^\d])+/gim, ''); 
-            let azulbarbuleta = con.query(`SELECT *  FROM user WHERE GUILD=`+newguild)
-            if (!azulbarbuleta.length > 0) { 
-                con.query("UPDATE user SET WC ="+role+ " WHERE GUILD ="+newguild, function (err, result, fields) {
-                    if (err) throw err;
-                    
-                });
-            }
+            const server = message.guild.id
+            con.query("SELECT * FROM user WHERE GUILD=" + server, function (err, result, fields) {
+                if (err) throw err;
+                if (result.length > 0) {
+                    if (result[0].PLAN == 1) {
+                        let newguild = message.guild.id            
+                        let firstrole = message.content
+                        let role = firstrole.replace(/([^\d])+/gim, ''); 
+                        let azulbarbuleta = con.query(`SELECT *  FROM user WHERE GUILD=`+newguild)
+                        if (!azulbarbuleta.length > 0) { 
+                            con.query("UPDATE user SET WC ="+role+ " WHERE GUILD ="+newguild, function (err, result, fields) {
+                                if (error) {
+                                    res.json(error);
+                                } else {
+                                    res.json(results);
+                                }
+                            });    
+                        }
+                    }
+                }
+            });            
         }
     }
     // Sistema de setar canal de regras
@@ -246,16 +258,24 @@ client.on('message', message => {
         if (message.author.id !== message.guild.ownerID) {
             message.reply('<a:709506935392829470:797066256783769611> | Apenas posse do servidor pode usar o comando:' + message.guild.owner)
         } else {
-            let newguild = message.guild.id            
-            let firstrole = message.content
-            let role = firstrole.replace(/([^\d])+/gim, '');
-            let azulbarbuleta = con.query(`SELECT *  FROM user WHERE GUILD=`+newguild)
-            if (!azulbarbuleta.length > 0) { 
-                con.query("UPDATE user SET CR ="+role+"  WHERE GUILD ="+newguild, function (err, result, fields) {
-                    if (err) throw err;
-                    
-                });
-            }
+            const server = message.guild.id
+            con.query("SELECT * FROM user WHERE GUILD=" + server, function (err, result, fields) {
+                if (err) throw err;
+                if (result.length > 0) {
+                    if (result[0].PLAN == 1) {
+                        let newguild = message.guild.id            
+                        let firstrole = message.content
+                        let role = firstrole.replace(/([^\d])+/gim, '');
+                        let azulbarbuleta = con.query(`SELECT *  FROM user WHERE GUILD=`+newguild)
+                        if (!azulbarbuleta.length > 0) { 
+                            con.query("UPDATE user SET CR ="+role+"  WHERE GUILD ="+newguild, function (err, result, fields) {
+                                if (err) throw err;
+                                
+                            });
+                        }
+                    }
+                }        
+            });            
         }
     }
     // Sistema para o usuario vê a mensagem de Boas-Vindas
@@ -303,7 +323,85 @@ client.on('message', message => {
             }
         }
     } 
+    // Sitema de bugs
+    if (Message === prefix + 'sistembugs'){
+        if (message.author.id !== message.guild.ownerID) {
+            message.reply('<a:709506935392829470:797066256783769611> | Apenas o dono do servidor pode usar o comando:' + message.guild.owner)
+        } else {
+            const server = message.guild.id
+            con.query("SELECT * FROM user WHERE GUILD=" + server, function (err, result, fields) {
+                if (err) throw err;
+                if (result.length > 0) {
+                    if (result[0].PLAN == 1) {
+                        let embed = new Discord.RichEmbed()
+                            .setThumbnail(message.guild.iconURL)
+                            .setColor('RANDOM')
+                            .setTitle('🚨 COMANDOS DO SISTEMA DE BUGS')
+                            .addField('``n!setbugschannel``', '__Setar Canal de Bugs:__ \n\ *n!setbugschannel 000000000000*')
+                            .addField('``n!setbugsreceived``', '__Setar Canal pra Receber os Bugs:__ \n\ *n!setbugsreceived 000000000000*')
+                            .setFooter('2021 ©Equipe de programação Nogill')
+                            .setTimestamp()
+                        message.channel.send(embed);
+                    } else {
+                        client.users.get(result[0].OWNER).send('<a:709506935392829470:797066256783769611> | Apenas usuarios premium podem usar esse comando')
+                    }
+
+                }
+            });
+        }
+    }
+    // Sistema para setar o canal de bugs
+    if (message.content.startsWith(prefix+"setbugschannel")) {
+        if (message.author.id !== message.guild.ownerID) {
+            message.reply('<a:709506935392829470:797066256783769611> | Apenas posse do servidor pode usar o comando:' + message.guild.owner)
+        } else {
+            const server = message.guild.id
+            con.query("SELECT * FROM user WHERE GUILD=" + server, function (err, result, fields) {
+                if (err) throw err;
+                if (result.length > 0) {
+                    if (result[0].PLAN == 1) {
+                        let newguild = message.guild.id            
+                        let firstrole = message.content
+                        let role = firstrole.replace(/([^\d])+/gim, ''); 
+                        let azulbarbuleta = con.query(`SELECT *  FROM user WHERE GUILD=`+newguild)
+                        if (!azulbarbuleta.length > 0) { 
+                            con.query("UPDATE user SET CBUGS ="+role+ " WHERE GUILD ="+newguild, function (err, result, fields) {
+                                if (err) throw err;
+                                
+                            });
+                        }
+                    }
+                }
+            });
+        }
+    }
+    // Sistema para setar o canal q recebe os bugs
+    if (message.content.startsWith(prefix+"setbugsreceived")) {
+        if (message.author.id !== message.guild.ownerID) {
+            message.reply('<a:709506935392829470:797066256783769611> | Apenas posse do servidor pode usar o comando:' + message.guild.owner)
+        } else {
+            const server = message.guild.id
+            con.query("SELECT * FROM user WHERE GUILD=" + server, function (err, result, fields) {
+                if (err) throw err;
+                if (result.length > 0) {
+                    if (result[0].PLAN == 1) {
+                        let newguild = message.guild.id            
+                        let firstrole = message.content
+                        let role = firstrole.replace(/([^\d])+/gim, ''); 
+                        let azulbarbuleta = con.query(`SELECT *  FROM user WHERE GUILD=`+newguild)
+                        if (!azulbarbuleta.length > 0) { 
+                            con.query("UPDATE user SET CBUGSR ="+role+ " WHERE GUILD ="+newguild, function (err, result, fields) {
+                                if (err) throw err;
+                                
+                            });
+                        }
+                    }
+                }
+            });
+        }
+    }
 });
+
 
 //react to emoji
 client.on('raw', async (dados, member) => {
